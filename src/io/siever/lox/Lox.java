@@ -1,4 +1,4 @@
-package io.siever.jlox;
+package io.siever.lox;
 
 public class Lox {
 
