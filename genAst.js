@@ -29,6 +29,8 @@ function defineAst(outputDir, baseName, types) {
   writer.push('');
   writer.push('abstract class ' + baseName + ' {');
 
+  defineVistor(writer, baseName, types);
+
   types.forEach(type => {
     writer.push('');
     const className = type.split(':')[0].trim();
@@ -36,10 +38,25 @@ function defineAst(outputDir, baseName, types) {
     defineType(writer, baseName, className, fields);
   });
 
+  // The base accept() method.
+  writer.push('');
+  writer.push('  abstract <R> R accept(Visitor<R> visitor);');
+
   writer.push('}');
 
   const sourceContent = writer.join('\n');
   fs.writeFileSync(path, sourceContent, { encoding: 'utf8' });
+}
+
+function defineVistor(writer, baseName, types) {
+  writer.push('  interface Visitor<R> {');
+
+  types.forEach(type => {
+    let typeName = type.split(':')[0].trim();
+    writer.push('    R visit' + typeName + baseName + '(' + typeName + ' ' + baseName.toLowerCase() + ');');
+  });
+
+  writer.push('  }');
 }
 
 function defineType(writer, baseName, className, fieldList) {
@@ -55,6 +72,13 @@ function defineType(writer, baseName, className, fieldList) {
     writer.push('      this.' + name + ' = ' + name + ';');
   });
 
+  writer.push('    }');
+
+  // Visitor pattern.
+  writer.push('');
+  writer.push('    @Override');
+  writer.push('    <R> R accept(Visitor<R> visitor) {');
+  writer.push('      return visitor.visit' + className + baseName + '(this);');
   writer.push('    }');
 
   // Fields.
