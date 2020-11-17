@@ -1,6 +1,7 @@
 package io.siever.lox;
 
 import io.siever.lox.Expr.Binary;
+import io.siever.lox.Expr.Ternary;
 import io.siever.lox.Expr.Grouping;
 import io.siever.lox.Expr.Literal;
 import io.siever.lox.Expr.Unary;
@@ -13,6 +14,11 @@ class AstPrinter implements Expr.Visitor<String> {
   @Override
   public String visitBinaryExpr(Binary expr) {
     return parenthesize(expr.operator.lexeme, expr.left, expr.right);
+  }
+
+  @Override
+  public String visitTernaryExpr(Ternary expr) {
+    return parenthesize("?:", expr.left, expr.middle, expr.right);
   }
 
   @Override

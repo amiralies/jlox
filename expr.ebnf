@@ -1,6 +1,8 @@
 expression     ::= commaSequence ;
 
-commaSequence  ::= equality { "," equality } ;
+commaSequence  ::= ternary { "," ternary } ;
+
+ternary        ::= equality { "?" commaSequence ":" commaSequence } ;
 
 equality       ::= comparison { ( "!=" | "==" ) comparison } ;
 
