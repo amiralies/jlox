@@ -29,10 +29,10 @@ abstract class Expr {
   }
 
   static class Conditional extends Expr {
-    Conditional(Expr left, Expr middle, Expr right) {
-      this.left = left;
-      this.middle = middle;
-      this.right = right;
+    Conditional(Expr cond, Expr thenBranch, Expr elseBranch) {
+      this.cond = cond;
+      this.thenBranch = thenBranch;
+      this.elseBranch = elseBranch;
     }
 
     @Override
@@ -40,9 +40,9 @@ abstract class Expr {
       return visitor.visitConditionalExpr(this);
     }
 
-    final Expr left;
-    final Expr middle;
-    final Expr right;
+    final Expr cond;
+    final Expr thenBranch;
+    final Expr elseBranch;
   }
 
   static class Grouping extends Expr {
