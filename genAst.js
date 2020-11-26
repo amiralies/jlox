@@ -26,8 +26,6 @@ function defineAst(outputDir, baseName, types) {
   const writer = [];
   writer.push('package io.siever.lox;');
   writer.push('');
-  writer.push('import java.util.List;');
-  writer.push('');
   writer.push('abstract class ' + baseName + ' {');
 
   defineVistor(writer, baseName, types);
