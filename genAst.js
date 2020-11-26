@@ -10,11 +10,11 @@ function main() {
   const [outputDir] = args;
 
   const types = [
-    'Binary   : Expr left, Token operator, Expr right',
-    'Ternary  : Expr left, Expr middle, Expr right',
-    'Grouping : Expr expression',
-    'Literal  : Object value',
-    'Unary    : Token operator, Expr right',
+    'Binary       : Expr left, Token operator, Expr right',
+    'Conditional  : Expr left, Expr middle, Expr right',
+    'Grouping     : Expr expression',
+    'Literal      : Object value',
+    'Unary        : Token operator, Expr right',
   ];
 
   defineAst(outputDir, 'Expr', types);

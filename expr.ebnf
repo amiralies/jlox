@@ -1,8 +1,8 @@
 expression     ::= commaSequence ;
 
-commaSequence  ::= ternary { "," ternary } ;
+commaSequence  ::= conditional { "," conditional } ;
 
-ternary        ::= equality { "?" commaSequence ":" commaSequence } ;
+conditional    ::= equality { "?" commaSequence ":" commaSequence } ;
 
 equality       ::= comparison { ( "!=" | "==" ) comparison } ;
 

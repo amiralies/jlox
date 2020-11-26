@@ -29,25 +29,25 @@ class Parser {
   }
 
   private Expr commaSequence() {
-    Expr expr = ternary();
+    Expr expr = conditional();
 
     while (match(COMMA)) {
       Token operator = previous();
-      Expr right = ternary();
+      Expr right = conditional();
       expr = new Expr.Binary(expr, operator, right);
     }
 
     return expr;
   }
 
-  private Expr ternary() {
+  private Expr conditional() {
     Expr expr = equality();
 
     while (match(QUESTION)) {
       Expr middle = commaSequence();
       consume(TokenType.COLON, "Expect ':' after expression.");
       Expr right = commaSequence();
-      expr = new Expr.Ternary(expr, middle, right);
+      expr = new Expr.Conditional(expr, middle, right);
     }
 
     return expr;
