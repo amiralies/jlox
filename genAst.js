@@ -9,7 +9,7 @@ function main() {
 
   const [outputDir] = args;
 
-  const types = [
+  const exprTypes = [
     'Binary       : Expr left, Token operator, Expr right',
     'Conditional  : Expr cond, Expr thenBranch, Expr elseBranch',
     'Grouping     : Expr expression',
@@ -17,7 +17,15 @@ function main() {
     'Unary        : Token operator, Expr right',
   ];
 
-  defineAst(outputDir, 'Expr', types);
+  const stmtTypes = [
+    // Statement expression
+    'Expression : Expr expression',
+    // Print statement
+    'Print      : Expr expression',
+  ];
+
+  defineAst(outputDir, 'Expr', exprTypes);
+  defineAst(outputDir, 'Stmt', stmtTypes);
 }
 
 function defineAst(outputDir, baseName, types) {
