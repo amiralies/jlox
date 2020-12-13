@@ -1,6 +1,7 @@
 package io.siever.lox;
 
 import java.util.List;
+import java.util.ArrayList;
 
 import static io.siever.lox.TokenType.*;
 
@@ -16,16 +17,37 @@ class Parser {
     this.tokens = tokens;
   }
 
-  Expr parse() {
-    try {
-      return expression();
-    } catch (ParseError e) {
-      return null;
+  List<Stmt> parse() {
+    List<Stmt> statements = new ArrayList<>();
+    while (!isAtEnd()) {
+      statements.add(statement());
     }
+
+    return statements;
   }
 
   private Expr expression() {
     return commaSequence();
+  }
+
+  private Stmt statement() {
+    if (match(PRINT)) {
+      return printStatement();
+    }
+
+    return expressionStatement();
+  }
+
+  private Stmt printStatement() {
+    Expr value = expression();
+    consume(SEMICOLON, "Expected ';' after value.");
+    return new Stmt.Print(value);
+  }
+
+  private Stmt expressionStatement() {
+    Expr expr = expression();
+    consume(SEMICOLON, "Expected ';' after expression.");
+    return new Stmt.Expression(expr);
   }
 
   private Expr commaSequence() {
