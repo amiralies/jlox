@@ -1,8 +1,26 @@
-program    ::= { statement } EOF ;
+program        ::= { statement } EOF ;
 
-statement  ::= exprStmt
-           | printStmt ;
+statement      ::= exprStmt
+               | printStmt ;
 
-exprStmt   ::= expression ";" ;
+exprStmt       ::= expression ";" ;
 
-printStmt  ::= "print" expression ";" ;
+printStmt      ::= "print" expression ";" ;expression     ::= commaSequence ;
+
+commaSequence  ::= conditional { "," conditional } ;
+
+conditional    ::= equality { "?" commaSequence ":" commaSequence } ;
+
+equality       ::= comparison { ( "!=" | "==" ) comparison } ;
+
+comparison     ::= term { ( ">" | ">=" | "<" | "<=" ) term } ;
+
+term           ::= factor { ( "-" | "+" ) factor } ;
+
+factor         ::= unary { ( "/" | "*" ) unary } ;
+
+unary          ::= ( "!" | "-" ) unary
+               | primary ;
+
+primary        ::= NUMBER | STRING | "true" | "false" | "nil"
+               | "(" expression ")" ;
