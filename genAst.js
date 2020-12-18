@@ -15,6 +15,7 @@ function main() {
     'Grouping     : Expr expression',
     'Literal      : Object value',
     'Unary        : Token operator, Expr right',
+    'Variable     : Token name',
   ];
 
   const stmtTypes = [
@@ -22,6 +23,8 @@ function main() {
     'Expression : Expr expression',
     // Print statement
     'Print      : Expr expression',
+    // Var declaration statement
+    'Var        : Token name, Expr initializer',
   ];
 
   defineAst(outputDir, 'Expr', exprTypes);
