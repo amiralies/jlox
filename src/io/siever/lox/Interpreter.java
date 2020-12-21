@@ -86,7 +86,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     // Arthimetic
     case MINUS:
       checkNumberOperands(expr.operator, left, right);
-      return (double) left + (double) right;
+      return (double) left - (double) right;
 
     case PLUS:
       if (left instanceof Double && right instanceof Double) {
