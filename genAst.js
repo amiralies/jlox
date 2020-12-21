@@ -10,6 +10,7 @@ function main() {
   const [outputDir] = args;
 
   const exprTypes = [
+    'Assign       : Token name, Expr value',
     'Binary       : Expr left, Token operator, Expr right',
     'Conditional  : Expr cond, Expr thenBranch, Expr elseBranch',
     'Grouping     : Expr expression',

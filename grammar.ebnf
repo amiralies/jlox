@@ -12,6 +12,11 @@ exprStmt       ::= expression ";" ;
 
 printStmt      ::= "print" expression ";" ;expression     ::= commaSequence ;
 
+expression     ::= assignment ;
+
+assignment     ::= IDENTIFIER "=" assignment
+               | commaSequence ;
+
 commaSequence  ::= conditional { "," conditional } ;
 
 conditional    ::= equality { "?" commaSequence ":" commaSequence } ;

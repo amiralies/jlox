@@ -1,13 +1,15 @@
 package io.siever.lox;
 
 import java.util.List;
-import io.siever.lox.Stmt.Expression;
-import io.siever.lox.Stmt.Print;
+
+import io.siever.lox.Expr.Assign;
 
 class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
+  private Environment environment = new Environment();
+
   void interpret(List<Stmt> statements) {
     try {
-      for(Stmt statement: statements){
+      for (Stmt statement : statements) {
         execute(statement);
       }
     } catch (RuntimeError error) {
@@ -24,16 +26,34 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
   }
 
   @Override
-  public Void visitExpressionStmt(Expression stmt) {
+  public Void visitExpressionStmt(Stmt.Expression stmt) {
     evaluate(stmt.expression);
     return null;
   }
 
   @Override
-  public Void visitPrintStmt(Print stmt) {
+  public Void visitPrintStmt(Stmt.Print stmt) {
     Object value = evaluate(stmt.expression);
     System.out.println(stringify(value));
     return null;
+  }
+
+  @Override
+  public Void visitVarStmt(Stmt.Var stmt) {
+    Object value = null;
+    if (stmt.initializer != null) {
+      value = evaluate(stmt.initializer);
+    }
+
+    environment.define(stmt.name.lexeme, value);
+    return null;
+  }
+
+  @Override
+  public Object visitAssignExpr(Assign expr) {
+    Object value = evaluate(expr.value);
+    environment.assign(expr.name, value);
+    return value;
   }
 
   @Override
@@ -137,6 +157,11 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
     default:
       return null;
     }
+  }
+
+  @Override
+  public Object visitVariableExpr(Expr.Variable expr) {
+    return environment.get(expr.name);
   }
 
   private void checkNumberOperand(Token operator, Object operand) {
