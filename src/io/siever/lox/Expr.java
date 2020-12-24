@@ -1,5 +1,6 @@
 package io.siever.lox;
 
+
 abstract class Expr {
   interface Visitor<R> {
     R visitAssignExpr(Assign expr);

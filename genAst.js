@@ -18,8 +18,11 @@ function main() {
     'Unary        : Token operator, Expr right',
     'Variable     : Token name',
   ];
+  exprImports = [];
 
   const stmtTypes = [
+    // Block statement
+    'Block      : List<Stmt> statements',
     // Statement expression
     'Expression : Expr expression',
     // Print statement
@@ -27,16 +30,21 @@ function main() {
     // Var declaration statement
     'Var        : Token name, Expr initializer',
   ];
+  const stmtImports = ['java.util.List'];
 
-  defineAst(outputDir, 'Expr', exprTypes);
-  defineAst(outputDir, 'Stmt', stmtTypes);
+  defineAst(outputDir, 'Expr', exprTypes, exprImports);
+  defineAst(outputDir, 'Stmt', stmtTypes, stmtImports);
 }
 
-function defineAst(outputDir, baseName, types) {
+function defineAst(outputDir, baseName, types, imports) {
   const path = `${outputDir}/${baseName}.java`;
 
   const writer = [];
   writer.push('package io.siever.lox;');
+  writer.push('');
+  imports.forEach(item => {
+    writer.push(`import ${item};`);
+  });
   writer.push('');
   writer.push('abstract class ' + baseName + ' {');
 
