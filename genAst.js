@@ -25,6 +25,8 @@ function main() {
     'Block      : List<Stmt> statements',
     // Statement expression
     'Expression : Expr expression',
+    // If statement
+    'If         : Expr condition, Stmt thenBranch, Stmt elseBranch',
     // Print statement
     'Print      : Expr expression',
     // Var declaration statement
