@@ -45,8 +45,8 @@ abstract class Expr {
   }
 
   static class Conditional extends Expr {
-    Conditional(Expr cond, Expr thenBranch, Expr elseBranch) {
-      this.cond = cond;
+    Conditional(Expr condition, Expr thenBranch, Expr elseBranch) {
+      this.condition = condition;
       this.thenBranch = thenBranch;
       this.elseBranch = elseBranch;
     }
@@ -56,7 +56,7 @@ abstract class Expr {
       return visitor.visitConditionalExpr(this);
     }
 
-    final Expr cond;
+    final Expr condition;
     final Expr thenBranch;
     final Expr elseBranch;
   }

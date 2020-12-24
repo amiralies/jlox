@@ -150,7 +150,7 @@ class Interpreter implements Expr.Visitor<Object>, Stmt.Visitor<Void> {
 
   @Override
   public Object visitConditionalExpr(Expr.Conditional expr) {
-    boolean cond = isTruthy(evaluate(expr.cond));
+    boolean cond = isTruthy(evaluate(expr.condition));
 
     if (cond) {
       return evaluate(expr.thenBranch);
