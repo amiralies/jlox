@@ -32,6 +32,8 @@ function main() {
     'Print      : Expr expression',
     // Var declaration statement
     'Var        : Token name, Expr initializer',
+    // Var declaration statement
+    'While      : Expr condition, Stmt body',
   ];
   const stmtImports = ['java.util.List'];
 
