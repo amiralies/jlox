@@ -140,13 +140,37 @@ class Parser {
   }
 
   private Expr conditional() {
-    Expr expr = equality();
+    Expr expr = or();
 
     while (match(QUESTION)) {
       Expr middle = assignment();
       consume(TokenType.COLON, "Expect ':' after expression.");
       Expr right = assignment();
       expr = new Expr.Conditional(expr, middle, right);
+    }
+
+    return expr;
+  }
+
+  private Expr or() {
+    Expr expr = and();
+
+    while (match(OR)) {
+      Token operator = previous();
+      Expr right = and();
+      expr = new Expr.Logical(expr, operator, right);
+    }
+
+    return expr;
+  }
+
+  private Expr and() {
+    Expr expr = equality();
+
+    while (match(AND)) {
+      Token operator = previous();
+      Expr right = equality();
+      expr = new Expr.Logical(expr, operator, right);
     }
 
     return expr;

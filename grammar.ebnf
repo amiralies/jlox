@@ -25,7 +25,11 @@ commaSequence  ::= assignment { "," assignment } ;
 assignment     ::= IDENTIFIER "=" commaSequence
                | conditional ;
 
-conditional    ::= equality { "?" assignment ":" assignment } ;
+conditional    ::= logicOr { "?" assignment ":" assignment } ;
+
+logicOr        ::= logicAnd { "or" logicAnd } ;
+
+logicAnd       ::= equality { "and" equality } ;
 
 equality       ::= comparison { ( "!=" | "==" ) comparison } ;
 
