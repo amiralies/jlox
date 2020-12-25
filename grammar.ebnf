@@ -18,14 +18,14 @@ exprStmt       ::= expression ";" ;
 
 printStmt      ::= "print" expression ";" ;
 
-expression     ::= assignment ;
+expression     ::= commaSequence ;
 
-assignment     ::= IDENTIFIER "=" assignment
-               | commaSequence ;
+commaSequence  ::= assignment { "," assignment } ;
 
-commaSequence  ::= conditional { "," conditional } ;
+assignment     ::= IDENTIFIER "=" commaSequence
+               | conditional ;
 
-conditional    ::= equality { "?" commaSequence ":" commaSequence } ;
+conditional    ::= equality { "?" assignment ":" assignment } ;
 
 equality       ::= comparison { ( "!=" | "==" ) comparison } ;
 

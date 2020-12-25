@@ -27,7 +27,7 @@ class Parser {
   }
 
   private Expr expression() {
-    return assignment();
+    return commaSequence();
   }
 
   private Stmt declaration() {
@@ -109,12 +109,24 @@ class Parser {
     return statements;
   }
 
+  private Expr commaSequence() {
+    Expr expr = assignment();
+
+    while (match(COMMA)) {
+      Token operator = previous();
+      Expr right = assignment();
+      expr = new Expr.Binary(expr, operator, right);
+    }
+
+    return expr;
+  }
+
   private Expr assignment() {
-    Expr expr = commaSequence();
+    Expr expr = conditional();
 
     if (match(EQUAL)) {
       Token equals = previous();
-      Expr value = assignment();
+      Expr value = commaSequence();
 
       if (expr instanceof Expr.Variable) {
         Token name = ((Expr.Variable) expr).name;
@@ -127,25 +139,13 @@ class Parser {
     return expr;
   }
 
-  private Expr commaSequence() {
-    Expr expr = conditional();
-
-    while (match(COMMA)) {
-      Token operator = previous();
-      Expr right = conditional();
-      expr = new Expr.Binary(expr, operator, right);
-    }
-
-    return expr;
-  }
-
   private Expr conditional() {
     Expr expr = equality();
 
     while (match(QUESTION)) {
-      Expr middle = commaSequence();
+      Expr middle = assignment();
       consume(TokenType.COLON, "Expect ':' after expression.");
-      Expr right = commaSequence();
+      Expr right = assignment();
       expr = new Expr.Conditional(expr, middle, right);
     }
 
